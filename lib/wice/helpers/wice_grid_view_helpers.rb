@@ -327,7 +327,7 @@ module Wice
             rendering.column_link(
               column,
               direction,
-              params,
+              params.to_unsafe_h,
               options[:extra_request_parameters]
             ),
             class: link_style)

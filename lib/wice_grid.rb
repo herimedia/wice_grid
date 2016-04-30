@@ -217,7 +217,7 @@ module Wice
 
     def process_params  #:nodoc:
       if this_grid_params
-        @status.merge!(this_grid_params)
+        @status.merge!(this_grid_params.to_unsafe_h)
         @status.delete(:export) unless self.export_to_csv_enabled
       end
     end
