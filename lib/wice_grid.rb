@@ -320,9 +320,9 @@ module Wice
     end
 
     def add_references(relation) #:nodoc:
-      if @ar_options[:include] && relation.respond_to?(:references)
+      if @ar_options[:include] && relation.respond_to?(:joins)
         # refs = [@ar_options[:include]] unless @ar_options[:include].is_a?(Array)
-        relation =  relation.references(* @ar_options[:include])
+        relation =  relation.joins(* @ar_options[:include])
       end
       relation
     end
@@ -333,7 +333,7 @@ module Wice
       use_default_or_unscoped do
         @resultset = if self.output_csv? || all_record_mode?
           relation = @relation
-                     .includes(@ar_options[:include])
+                     .preload(@ar_options[:include])
                      .joins(@ar_options[:joins])
                      .order(@ar_options[:order])
                      .group(@ar_options[:group])
@@ -346,7 +346,7 @@ module Wice
           relation = @relation
                      .send(@options[:page_method_name], @ar_options[:page])
                      .per(@ar_options[:per_page])
-                     .includes(@ar_options[:include])
+                     .preload(@ar_options[:include])
                      .joins(@ar_options[:joins])
                      .order(@ar_options[:order])
                      .group(@ar_options[:group])
@@ -583,7 +583,7 @@ module Wice
 
       use_default_or_unscoped do
         relation = @relation.joins(@ar_options[:joins])
-                   .includes(@ar_options[:include])
+                   .preload(@ar_options[:include])
                    .group(@ar_options[:group])
                    .where(@options[:conditions])
 
@@ -617,7 +617,7 @@ module Wice
       use_default_or_unscoped do
         relation = @relation
                    .joins(@ar_options[:joins])
-                   .includes(@ar_options[:include])
+                   .preload(@ar_options[:include])
                    .order(@ar_options[:order])
                    .merge(@ar_options[:conditions])
 
